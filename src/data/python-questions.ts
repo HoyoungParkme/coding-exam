@@ -511,7 +511,7 @@ export const PYTHON_QUESTIONS: Question[] = [
       'for k in d:',
       '    print(k, end="")'
     ],
-    choices: ['XY', '1020', '('X', 10)('Y', 20)', '에러'],
+    choices: ['XY', '1020', '("X", 10)("Y", 20)', '에러'],
     correctAnswer: 0,
     visualizer: 'console',
     steps: [

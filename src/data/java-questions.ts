@@ -988,7 +988,7 @@ export const JAVA_QUESTIONS: Question[] = [
     steps: [
       { codeLine: 0, desc: '자식은 오버라이딩 시 부모가 선언한 예외(IOException)보다 더 넓은 최상위 예외(Exception)를 throw할 수 없습니다. (좁거나 같은 예외, 혹은 전혀 던지지 않는 것만 허용됨)', output: '', variables: {} },
     ],
-  }
+  },
   // 5. 다형성 - 하이딩
   {
     id: 'j_hiding_1',
@@ -1235,7 +1235,7 @@ export const JAVA_QUESTIONS: Question[] = [
     steps: [
       { codeLine: 4, desc: 'super 예약어를 쓰면 자식 변수가 아니라 강제적으로 은닉된 부모 변수를 직접 가져올 수 있습니다.', output: '10', variables: {} },
     ],
-  }
+  },
   // 6. static 변수와 메서드
   {
     id: 'j_static_1',
@@ -1473,7 +1473,7 @@ export const JAVA_QUESTIONS: Question[] = [
     steps: [
       { codeLine: 5, desc: '내부 클래스가 static일 때, 부모 클래스의 객체를 외부에서 굳이 만들지 않고도 (new Outer() 없이) 다이렉트로 내부 클래스 생성이 가능합니다.', output: 'H', variables: {} },
     ],
-  }
+  },
   // 7. 예외처리
   {
     id: 'j_exception',

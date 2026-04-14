@@ -1021,7 +1021,7 @@ export const C_QUESTIONS: Question[] = [
       { codeLine: 7, desc: 'a[3]에 temp를 넣어서 2, 3, 4, 1로 씁니다. Left Shift 순환 회전이 완료됨.', output: '', memory: [2, 3, 4, 1], memoryLabels: [], activeIdx: null, pointerIdx: null },
       { codeLine: 8, desc: 'a[0]은 2, a[3]은 1 입니다.', output: '2 1', memory: [2, 3, 4, 1], memoryLabels: [], activeIdx: null, pointerIdx: null },
     ],
-  }
+  },
   // 5. 2차원 배열
   {
     id: 'c_arr2_1',
@@ -1238,7 +1238,7 @@ export const C_QUESTIONS: Question[] = [
     steps: [
       { codeLine: 0, desc: 'C언어에서 다차원 배열을 넘길 때는 "가장 앞 괄호(행)만" 생략 가능하고 그 이후의 열 크기는 모두 정확히 써야 메모리 오프셋 계산이 가능하여 에러가 나지 않습니다.', output: '', variables: {} },
     ],
-  }
+  },
   // 6. 포인터 배열 등
   {
     id: 'c_ptr_arr_1',
@@ -1437,7 +1437,7 @@ export const C_QUESTIONS: Question[] = [
     steps: [
       { codeLine: 3, desc: 'void 포인터는 어떤 주소든 받을 수 있지만, 대상의 크기를 알 수 없어 강제 캐스팅 (int *)p 없이는 *p 연산명령시 컴파일 에러를 냅니다.', output: '', variables: {} },
     ],
-  }
+  },
   // 7. 이중 포인터
   {
     id: 'c_dbl_ptr',
