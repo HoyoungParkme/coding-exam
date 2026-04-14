@@ -4,6 +4,7 @@ import { Header } from '@/components/layout/Header';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { QuizView } from '@/components/quiz/QuizView';
 import { SimulationView } from '@/components/simulation/SimulationView';
+import { ConceptViewer } from '@/components/concept/ConceptViewer';
 
 export default function App() {
   const theme = useStore((s) => s.theme);
@@ -56,7 +57,9 @@ export default function App() {
 
         <main className="w-full max-w-[1400px] mx-auto px-5 py-8">
           {question ? (
-            viewMode === 'quiz' ? (
+            viewMode === 'concept' ? (
+              <ConceptViewer language={activeLanguage} questionId={question.id} />
+            ) : viewMode === 'quiz' ? (
               <QuizView question={question} />
             ) : (
               <SimulationView question={question} />

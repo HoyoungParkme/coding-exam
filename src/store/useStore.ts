@@ -26,8 +26,8 @@ interface AppState {
   setSelectedQuestionId: (id: string | null) => void;
 
   // 뷰 모드
-  viewMode: 'quiz' | 'simulation';
-  setViewMode: (mode: 'quiz' | 'simulation') => void;
+  viewMode: 'quiz' | 'simulation' | 'concept';
+  setViewMode: (mode: 'quiz' | 'simulation' | 'concept') => void;
 
   // 퀴즈 상태
   selectedChoice: number | null;
