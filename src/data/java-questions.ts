@@ -1476,7 +1476,7 @@ export const JAVA_QUESTIONS: Question[] = [
   },
   // 7. 예외처리
   {
-    id: 'j_exception',
+    id: 'j_exception_1',
     language: 'java',
     category: 'j_exception',
     title: 'try-catch-finally 블록',
@@ -1503,9 +1503,191 @@ export const JAVA_QUESTIONS: Question[] = [
       { codeLine: 6, desc: 'finally 블록 진입. 항상 실행되므로 "F" 출력.', output: 'EF', variables: {} },
     ],
   },
+  {
+    id: 'j_exception_2',
+    language: 'java',
+    category: 'j_exception',
+    title: '다중 catch 블록 순서',
+    questionText: '컴파일 결과는?',
+    code: [
+      'try {',
+      '    String s = null;',
+      '    s.length();',
+      '} catch (Exception e) {',
+      '    System.out.print("A");',
+      '} catch (NullPointerException e) {',
+      '    System.out.print("B");',
+      '}'
+    ],
+    choices: ['컴파일 에러 (Unreachable code)', 'A 출력', 'B 출력', '에러없이종료'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 3, desc: 'Java에서는 다중 catch에서 상위(부모) 예외 클래스를 나중에 적어야 합니다. Exception이 상위에 있으면 아래 catch블록은 절대 도달불가 컴파일 에러가 납니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_exception_3',
+    language: 'java',
+    category: 'j_exception',
+    title: 'return과 finally',
+    questionText: '출력되는 값은?',
+    code: [
+      'public class Main {',
+      '    static int test() {',
+      '        try { return 1; }',
+      '        finally { return 2; }',
+      '    }',
+      '    public static void main(String[] args) {',
+      '        System.out.print(test());',
+      '    }',
+      '}'
+    ],
+    choices: ['2', '1', '12', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 2, desc: 'try 블록 안의 return 1이 실행될 준비를 하지만, 함수 종료 전에 finally 블록이 인터셉트하여 호출됩니다.', output: '', variables: {} },
+      { codeLine: 3, desc: 'finally 블록에 있는 return 2 가 이전 return 값을 덮어쓰고 최종 반환합니다.', output: '', variables: {} },
+      { codeLine: 6, desc: '2가 출력됨', output: '2', variables: {} },
+    ],
+  },
+  {
+    id: 'j_exception_4',
+    language: 'java',
+    category: 'j_exception',
+    title: 'throws 의 의미',
+    questionText: '메서드 선언부의 throws IOException은 무엇을 의미하는가?',
+    code: [
+      'public void readFile() throws IOException {',
+      '    // ...',
+      '}'
+    ],
+    choices: ['해당 메서드 내에서 IOException이 발생하면 자신을 호출한 곳으로 예외를 던짐 (전달함)', '항상 IOException을 강제 발생시킴', '예외를 여기서 자체 처리함', '해당 예외를 무시함'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 0, desc: 'throws 구문은 자신이 예외를 처리(catch)하지 않고 상위 호출자에게 책임을 전가하는 키워드입니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_exception_5',
+    language: 'java',
+    category: 'j_exception',
+    title: 'throw로 예외 강제 발생',
+    questionText: '출력은?',
+    code: [
+      'try {',
+      '    throw new RuntimeException("R");',
+      '} catch(Exception e) {',
+      '    System.out.print(e.getMessage());',
+      '} finally {',
+      '    System.out.print("F");',
+      '}'
+    ],
+    choices: ['RF', 'R', 'F', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: 'throw 파라미터에 "R" 메시지를 담아 예외를 생성해 던졌습니다.', output: '', variables: {} },
+      { codeLine: 3, desc: 'catch의 e.getMessage()에서 "R"이 출력되고', output: 'R', variables: {} },
+      { codeLine: 5, desc: 'finally 문이 수행되어 덧붙어 "F"가 출력됩니다.', output: 'RF', variables: {} },
+    ],
+  },
+  {
+    id: 'j_exception_6',
+    language: 'java',
+    category: 'j_exception',
+    title: 'Checked vs Unchecked 예외',
+    questionText: 'try-catch 나 throws 를 안적을 때, 컴파일러가 강제로 에러를 내지 "않는" 예외(Unchecked Exception)의 최고 조상 클래스는?',
+    code: [
+      '// 컴파일러 예외 처리 강제성 여부'
+    ],
+    choices: ['RuntimeException', 'Exception', 'IOException', 'Throwable'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 0, desc: 'RuntimeException 과 그 자손들은 개발자의 실수에 의한(널포인터, 배열초과 등) 오류라 컴파일러가 강제체킹(Checked)을 하지 않는 Unchecked 예외입니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_exception_7',
+    language: 'java',
+    category: 'j_exception',
+    title: 'finally 와 System.exit()',
+    questionText: '이 코드의 출력은?',
+    code: [
+      'try {',
+      '    System.out.print("A");',
+      '    System.exit(0);',
+      '} finally {',
+      '    System.out.print("B");',
+      '}'
+    ],
+    choices: ['A', 'AB', 'B', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: 'try 블록에서 "A"가 먼저 찍힙니다.', output: 'A', variables: {} },
+      { codeLine: 2, desc: 'System.exit(0) 이 호출되면 JVM 자체가 즉시 종료되므로 finally 블록이 실행되지 못합니다.', output: 'A', variables: {} },
+    ],
+  },
+  {
+    id: 'j_exception_8',
+    language: 'java',
+    category: 'j_exception',
+    title: '복합 대입 catch',
+    questionText: '자바 7부터 지원하는 문법의 올바른 모습?',
+    code: [
+      'try {',
+      '   // 예외 발생',
+      '} catch ( ??? ) { }'
+    ],
+    choices: ['catch (IOException | SQLException e)', 'catch (IOException || SQLException e)', 'catch (IOException, SQLException e)', 'catch (IOException & SQLException e)'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 2, desc: '자바의 Multi-catch 구문은 비트 OR 연산자기호( | )를 구분자로 사용합니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_exception_9',
+    language: 'java',
+    category: 'j_exception',
+    title: 'try-with-resources',
+    questionText: 'AutoCloseable 인터페이스를 구현한 자원은 자동으로 close() 됨을 보장하는 블록은 어떻게 작성하는가?',
+    code: [
+      '// 빈칸에 들어갈 코드는?',
+      '______ (Scanner s = new Scanner(System.in)) { }'
+    ],
+    choices: ['try', 'with', 'using', 'catch'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: 'try 옆 소괄호 안에 자원 생성을 넣으면 구문 종료시 무조건 close() 가 불리는 try-with-resources 구문 문법입니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_exception_10',
+    language: 'java',
+    category: 'j_exception',
+    title: '사용자 정의 예외',
+    questionText: 'CustomException을 Unchecked (런타임) 예외로 만들려면 어떻게 상속받아야 하는가?',
+    code: [
+      'class CustomException extends ??? {',
+      '    // ...',
+      '}'
+    ],
+    choices: ['RuntimeException', 'Exception', 'Throwable', 'Error'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 0, desc: 'Checked 예외로 만들거면 Exception을, try-catch를 강제하지 않을거면 RuntimeException을 부모로 상속합니다.', output: '', variables: {} },
+    ],
+  },
   // 8. 추상 클래스 / Interface
   {
-    id: 'j_abstract',
+    id: 'j_abstract_1',
     language: 'java',
     category: 'j_abstract',
     title: '다중 구현과 인터페이스',
@@ -1531,9 +1713,171 @@ export const JAVA_QUESTIONS: Question[] = [
       { codeLine: 8, desc: 'obj.f() 호출. C에서 정의된 f() 단 하나만 실행됩니다.', output: 'C', heapObjects: [], highlightObj: null },
     ],
   },
+  {
+    id: 'j_abstract_2',
+    language: 'java',
+    category: 'j_abstract',
+    title: '추상 클래스의 객체 생성',
+    questionText: '에러가 발생하는 코드는?',
+    code: [
+      'abstract class Shape {',
+      '    abstract void draw();',
+      '}',
+      'class Circle extends Shape {',
+      '    void draw() {}',
+      '}'
+    ],
+    choices: ['Shape s = new Shape();', 'Shape s = new Circle();', 'Circle c = new Circle();', 'Shape s = null;'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 0, desc: 'abstract로 선언된 추상 클래스는 미완성 클래스이므로 자체적으로 new 연산자로 객체(인스턴스)를 생성할 수 없습니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_abstract_3',
+    language: 'java',
+    category: 'j_abstract',
+    title: '인터페이스의 기본 메서드 (default)',
+    questionText: '자바 8부터 인터페이스에 구현 코드가 있는 메서드를 넣을 수 있게 해주는 키워드는?',
+    code: [
+      'interface MyFunc {',
+      '    ??? void print() { System.out.println("기본구현"); }',
+      '}'
+    ],
+    choices: ['default', 'static', 'abstract', 'void'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: 'default 제어자를 인터페이스 메서드에 붙이면, 하위 클래스에서 오버라이딩 하지 않아도 기본으로 동작하는 바디를 제공할 수 있습니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_abstract_4',
+    language: 'java',
+    category: 'j_abstract',
+    title: '추상 메서드 구현 강제성',
+    questionText: '에러를 피하기 위해 B 클래스가 가져야 할 조치는?',
+    code: [
+      'abstract class A { abstract void run(); }',
+      'class B extends A {',
+      '    // ???',
+      '}'
+    ],
+    choices: ['run()을 오버라이딩 하거나 B 자신도 abstract 클래스가 된다.', '아무것도 안 함', 'super.run() 호출', 'public으로 넓혀서 숨김'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: '추상 클래스를 상속받은 자식은 물려받은 추상 메서드를 강제로 오버라이딩해서 구현해줘야 하며, 안그럴꺼면 본인 역시 추상 클래스가 되어 생성을 포기해야 합니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_abstract_5',
+    language: 'java',
+    category: 'j_abstract',
+    title: '인터페이스의 변수',
+    questionText: '인터페이스 내부에 int MAX = 10; 을 선언했다. 이 변수는 컴파일러에 의해 암묵적으로 어떻게 확장되는가?',
+    code: [
+      'interface Info {',
+      '    int MAX = 10;',
+      '}'
+    ],
+    choices: ['public static final int MAX = 10;', 'public int MAX = 10;', 'private static final int MAX = 10;', 'protected int MAX = 10;'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: '인터페이스의 모든 변수는 변경 불가능한 상수이며 어떤 객체로도 공유되어야 하므로 무조건 public static final 이 생략되어 적용됩니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_abstract_6',
+    language: 'java',
+    category: 'j_abstract',
+    title: '인터페이스 상속',
+    questionText: '인터페이스가 다른 인터페이스 하나를 부모로 가질 때 사용하는 키워드는?',
+    code: [
+      'interface X {}',
+      'interface Y ??? X {}'
+    ],
+    choices: ['extends', 'implements', 'abstract', 'super'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: '클래스는 인터페이스를 implements로 "구현"하지만, 인터페이스끼리는 부모자식 "확장" 개념이므로 동일하게 extends 를 사용해 다중 상속까지 받을 수 있습니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_abstract_7',
+    language: 'java',
+    category: 'j_abstract',
+    title: '추상 클래스 vs 인터페이스 차이',
+    questionText: '추상 클래스는 가능하지만 인터페이스(자바 7이하 기준)는 원천적으로 불가능했던 것은?',
+    code: [
+      '// 객체지향 개념'
+    ],
+    choices: ['일반 인스턴스 변수(상태값)를 가지는 것', '추상 메서드 가지기', '다형성 적용', '상속하기'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 0, desc: '추상 클래스는 생성은 못해도 엄연히 상태(맴버 변수)를 가질 수 있습니다. 반면 인터페이스는 static final 상수 규칙 때문에 변화하는 상태를 담지 못합니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_abstract_8',
+    language: 'java',
+    category: 'j_abstract',
+    title: '다중 상속 충돌 (Diamond Problem)',
+    questionText: '자바의 클래스는 왜 extends로 하나만, implements로는 여러 개를 상속하도록 설계되었는가?',
+    code: [
+      '// class C extends A, B { } (금지됨)'
+    ],
+    choices: ['인터페이스엔 구현부(body)가 없어 같은 메서드가 겹쳐도 모호성이 없기 때문', '그냥 기호라서', '메모리 부족', '컴파일러 느려짐'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 0, desc: 'A와 B에 동일한 구현 메서드가 있을 시 C에선 누굴 따를지 충돌하는 문제가 생깁니다. 인터페이스는 껍데기만 있어 구현은 C가 어차피 직접 덮어쓰므로 상관없습니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_abstract_9',
+    language: 'java',
+    category: 'j_abstract',
+    title: '인터페이스의 static 메서드',
+    questionText: '출력은?',
+    code: [
+      'interface Base {',
+      '    static void echo() { System.out.print("S"); }',
+      '}',
+      '// Base.echo();'
+    ],
+    choices: ['S', '에러', '코드 실행 불가', 'None'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: '자바 8부터 인터페이스도 static 메서드를 직접 정의해 가질 수 있습니다. Base.echo() 처럼 이름으로 직접 부릅니다.', output: 'S', variables: {} },
+    ],
+  },
+  {
+    id: 'j_abstract_10',
+    language: 'java',
+    category: 'j_abstract',
+    title: '추상 클래스 생성자',
+    questionText: '추상 클래스는 생성자를 가질 수 있는가?',
+    code: [
+      'abstract class A {',
+      '    A() { System.out.print("Init"); }',
+      '}'
+    ],
+    choices: ['자식 클래스 내부에서 super()로 호출될 목적으로 가질 수 있다', '절대 가질 수 없다', '오직 private으로만 가능', '에러난다'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: '추상 클래스는 자신을 외부에서 직접 객체로 만들 순 없지만, 자손 객체가 생성될 때 부모로서의 초기화를 위한 생성자를 가질 수 있습니다.', output: '', variables: {} },
+    ],
+  },
   // 9. 람다식, 제네릭
   {
-    id: 'j_lambda',
+    id: 'j_lambda_1',
     language: 'java',
     category: 'j_lambda',
     title: '컬렉션과 제네릭, for-each',
@@ -1559,9 +1903,179 @@ export const JAVA_QUESTIONS: Question[] = [
       { codeLine: 7, desc: '합계 3을 출력합니다.', output: '3', variables: {} },
     ],
   },
+  {
+    id: 'j_lambda_2',
+    language: 'java',
+    category: 'j_lambda',
+    title: '람다식의 구조',
+    questionText: '다음 중 올바른 람다식 표현은?',
+    code: [
+      '// 자바 람다식 작성법'
+    ],
+    choices: ['(x, y) -> x + y', '(x, y) => x + y', 'x, y -> { x + y }', 'lambda(x, y): x+y'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 0, desc: '자바의 람다는 화살표(->)를 쓰며, 매개변수 타입은 추론 가능시 생략 가능하고 단일 표현식일 경우 블록{} 과 return 키워드를 생략할 수 있습니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_lambda_3',
+    language: 'java',
+    category: 'j_lambda',
+    title: '함수형 인터페이스 (@FunctionalInterface)',
+    questionText: '람다식을 저장할 수 있는 인터페이스의 조건은?',
+    code: [
+      '@FunctionalInterface',
+      'interface MyFunc {',
+      '    // 조건은?',
+      '}'
+    ],
+    choices: ['오직 1개의 추상 메서드만 가져야 한다', '메서드가 아예 없어야 한다', '여러 개의 추상 메서드를 가져야 한다', 'default 메서드만 가져야 한다'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: '함수형 인터페이스는 람다식이 대체할 딱 1개의 타겟 추상 메서드를 강제합니다. 단 default나 static 메서드는 여러 개 있어도 무방합니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_lambda_4',
+    language: 'java',
+    category: 'j_lambda',
+    title: '메서드 참조 (Method Reference)',
+    questionText: 'System.out::println 와 완전히 동일한 역할을 하는 람다식은?',
+    code: [
+      '// List.forEach(System.out::println);'
+    ],
+    choices: ['x -> System.out.println(x)', '() -> System.out.println()', 'System.out.println', 'x => System.out.println(x)'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 0, desc: '파라미터를 그대로 다음 메서드의 인자로 토스할 때 클래스명::메서드명 형태의 축약형태(메서드 참조)를 사용할 수 있습니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_lambda_5',
+    language: 'java',
+    category: 'j_lambda',
+    title: '제네릭 클래스',
+    questionText: '아래 코드가 에러를 발생시키는 이유는?',
+    code: [
+      'class Box<T> { T item; }',
+      'public class Main {',
+      '    public static void main(String[] args) {',
+      '        // Box<int> b = new Box<>(); // 에러',
+      '    }',
+      '}'
+    ],
+    choices: ['제네릭 타입 매개변수 T에는 기본 자료형(int, double 등)이 올 수 없고 참조형(Integer)만 올 수 있다', 'new 부분에 타입명시 생략 불가', 'Box 내부 구조가 틀림', '제네릭은 자바에 없음'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 3, desc: '자바의 제네릭은 Type Erasure 방식으로 인해 Object로 변환되기 때문에 기본형(Primitive type)은 올 수 없고 래퍼 클래스를 써야 합니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_lambda_6',
+    language: 'java',
+    category: 'j_lambda',
+    title: '제네릭의 형변환 (Type Erasure)',
+    questionText: '실행 시간(Runtime)에 Box<String> 과 Box<Integer> 는 어떻게 식별되는가?',
+    code: [
+      'import java.util.ArrayList;',
+      '// 컴파일 이후 바이트코드 상의 차이는?'
+    ],
+    choices: ['런타임에는 둘 다 그냥 무형 타입(원시 타입인 Box)으로 취급되어 식별되지 않는다', 'StringBox와 IntegerBox로 각기 다르게 컴파일된다(C++처럼)', '런타임 에러', 'JVM 메모리가 갈라진다'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: '자바 제네릭은 구버전 호환성을 위해 컴파일 타임에만 타입 체킹을 하고 런타임에는 캐스팅 소스만 남긴채 타입정보를 지웁니다(Erasure).', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_lambda_7',
+    language: 'java',
+    category: 'j_lambda',
+    title: '와일드카드 (?)',
+    questionText: 'List<?> 의 의미는?',
+    code: [
+      'void printList(List<?> list) {',
+      '    // ...',
+      '}'
+    ],
+    choices: ['어떠한 타입의 요소가 들어있는 List라도 매개변수로 다 받을 수 있다 (Unknown type)', '에러 방지용', 'null 전용 리스트', 'Object만 받을수있다'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 0, desc: '? 는 와일드카드로, 제네릭 타입의 무관성을 표현하여 List<Integer> 나 List<String> 아무거나 대입할 수 있게 합니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_lambda_8',
+    language: 'java',
+    category: 'j_lambda',
+    title: '람다와 지역변수 제한',
+    questionText: '람다식 내부에서 외부의 지역 변수를 사용할 때의 제약은?',
+    code: [
+      'int t = 10;',
+      'Runnable r = () -> {',
+      '    // t = 20; // 이거 되나요?',
+      '    System.out.print(t);',
+      '};',
+      'r.run();'
+    ],
+    choices: ['람다에서 참조하는 지역 변수는 effectively final(초기화 이후 값 변경 금지)이어야 한다', '자유롭게 수정 가능', '클로저와 무관함', '전역변수만 가능'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 2, desc: '자바의 변수 생명주기 문제 때문에, 람다 내부에서 외부의 로컬 변수를 "읽기"만 가능하며 "수정"하려 하면 컴파일 에러를 냅니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_lambda_9',
+    language: 'java',
+    category: 'j_lambda',
+    title: '제네릭 메서드',
+    questionText: '올바른 제네릭 메서드의 선언 위치는?',
+    code: [
+      'public class T {',
+      '    // 여기에 제네릭 메서드',
+      '}'
+    ],
+    choices: ['public <T> void func(T a)', 'public void <T> func(T a)', 'public void func<T>(T a)', 'public void func(T a) <T>'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: '제네릭 타입 매개변수 선언부(<T>)는 반드시 접근제어자와 리턴타입의 "사이"에 위치해야 합니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_lambda_10',
+    language: 'java',
+    category: 'j_lambda',
+    title: '컬렉션 stream 기능',
+    questionText: '출력 결과는?',
+    code: [
+      'import java.util.Arrays;',
+      'public class Main {',
+      '    public static void main(String[] args) {',
+      '        int[] a = {1, 2, 3, 4};',
+      '        int s = Arrays.stream(a).filter(x -> x%2==0).sum();',
+      '        System.out.print(s);',
+      '    }',
+      '}'
+    ],
+    choices: ['6', '4', '10', '3'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 4, desc: '스트림으로 변환 후, filter를 통해 짝수(2, 4)만 거릅니다.', output: '', variables: {} },
+      { codeLine: 4, desc: '그걸 sum() 했으므로 2 + 4 = 6 이 됩니다.', output: '6', variables: {} },
+    ],
+  },
   // 10. 문자열 메서드
   {
-    id: 'j_string',
+    id: 'j_string_1',
     language: 'java',
     category: 'j_string',
     title: 'String과 == 연산자',
@@ -1586,4 +2100,193 @@ export const JAVA_QUESTIONS: Question[] = [
       { codeLine: 5, desc: 'equals()는 내용(값)을 비교하므로 true', output: 'false true', variables: { '비교': '값같음' } },
     ],
   },
+  {
+    id: 'j_string_2',
+    language: 'java',
+    category: 'j_string',
+    title: 'String의 불변성 (Immutable)',
+    questionText: '출력은 어떻게 되는가?',
+    code: [
+      'public class Main {',
+      '    public static void main(String[] args) {',
+      '        String s = "Hello";',
+      '        s.concat(" World");',
+      '        System.out.print(s);',
+      '    }',
+      '}'
+    ],
+    choices: ['Hello', 'Hello World', 'World', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 3, desc: 'String은 변경불가능한(Immutable) 객체입니다. concat()을 호출해도 원본 s를 변경하지 않고 새로운 메모리에 합친 문자열을 만들어 리턴만합니다.', output: '', variables: {} },
+      { codeLine: 4, desc: '리턴본을 다시 s에 덮어쓰지(s = s.concat(...)) 않았으므로 s는 그대로 "Hello" 입니다.', output: 'Hello', variables: {} },
+    ],
+  },
+  {
+    id: 'j_string_3',
+    language: 'java',
+    category: 'j_string',
+    title: 'StringBuffer의 가변성',
+    questionText: '출력은?',
+    code: [
+      'public class Main {',
+      '    public static void main(String[] args) {',
+      '        StringBuffer sb = new StringBuffer("Java");',
+      '        sb.append("17");',
+      '        System.out.print(sb);',
+      '    }',
+      '}'
+    ],
+    choices: ['Java17', 'Java', '17', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 3, desc: 'StringBuffer(또는 StringBuilder)는 메모리 변경이 가능한 가변(Mutable) 객체입니다. append를 쓰면 원본 뒤에 직접 덧붙여집니다.', output: '', variables: {} },
+      { codeLine: 4, desc: 'Java17 이 출력됩니다.', output: 'Java17', variables: {} },
+    ],
+  },
+  {
+    id: 'j_string_4',
+    language: 'java',
+    category: 'j_string',
+    title: 'substring() 메서드',
+    questionText: 's.substring(1, 4) 의 결과는?',
+    code: [
+      'public class Main {',
+      '    public static void main(String[] args) {',
+      '        String s = "012345";',
+      '        System.out.print(s.substring(1, 4));',
+      '    }',
+      '}'
+    ],
+    choices: ['123', '1234', '012', '2345'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 3, desc: 'substring(start, end) 는 시작 인덱스(포함)부터 끝 인덱스(미포함)까지를 자릅니다. 즉 인덱스 1, 2, 3 을 가져옵니다.', output: '123', variables: {} },
+    ],
+  },
+  {
+    id: 'j_string_5',
+    language: 'java',
+    category: 'j_string',
+    title: 'length() vs length',
+    questionText: '배열과 문자열의 길이를 구할 때 사용법 차이는?',
+    code: [
+      'int[] a = {1};',
+      'String s = "1";'
+    ],
+    choices: ['배열은 a.length, 문자열은 s.length()', '둘다 length()', '둘다 length', '배열은 size()'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 0, desc: '자바에서 배열은 언어 사양 자체의 속성이라 기본프로퍼티인 length 로 구합니다.', output: '', variables: {} },
+      { codeLine: 1, desc: 'String은 객체/클래스이므로 길이를 반환해주는 인스턴스 메서드인 length() 를 부릅니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_string_6',
+    language: 'java',
+    category: 'j_string',
+    title: 'indexOf() 결과가 없을 때',
+    questionText: 's.indexOf("Z") 의 출력값은?',
+    code: [
+      'public class Main {',
+      '    public static void main(String[] args) {',
+      '        String s = "Apple";',
+      '        System.out.print(s.indexOf("Z"));',
+      '    }',
+      '}'
+    ],
+    choices: ['-1', '0', '에러', 'false'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 3, desc: 'indexOf는 해당 단어를 찾을 수 없을 때 -1 을 리턴합니다.', output: '-1', variables: {} },
+    ],
+  },
+  {
+    id: 'j_string_7',
+    language: 'java',
+    category: 'j_string',
+    title: 'String과 숫자 사이의 덧셈',
+    questionText: '출력은 어떻게 되나?',
+    code: [
+      'public class Main {',
+      '    public static void main(String[] args) {',
+      '        System.out.print(1 + 2 + "3" + 4);',
+      '    }',
+      '}'
+    ],
+    choices: ['334', '1234', '10', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 2, desc: '덧셈 연산은 왼쪽부터 진행. 1+2=3(숫자). 3(숫자)+"3"(문자)="33"(문자). "33"(문자)+4="334"(문자).', output: '334', variables: {} },
+    ],
+  },
+  {
+    id: 'j_string_8',
+    language: 'java',
+    category: 'j_string',
+    title: 'replace() 의 범위',
+    questionText: '출력은?',
+    code: [
+      'public class Main {',
+      '    public static void main(String[] args) {',
+      '        String s = "ABAB";',
+      '        System.out.print(s.replace("A", "C"));',
+      '    }',
+      '}'
+    ],
+    choices: ['CBCB', 'CBAB', 'ABAB', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 3, desc: '자바의 replace("A", "C") 는 문자열 안에 매칭되는 [모든] "A"를 한꺼번에 "C"로 바꿔 새로운 문자열을 즉시 리턴합니다.', output: 'CBCB', variables: {} },
+    ],
+  },
+  {
+    id: 'j_string_9',
+    language: 'java',
+    category: 'j_string',
+    title: 'charAt() 범위초과',
+    questionText: '"Hi".charAt(2) 의 결과는?',
+    code: [
+      'public class Main {',
+      '    public static void main(String[] args) {',
+      '        System.out.print("Hi".charAt(2));',
+      '    }',
+      '}'
+    ],
+    choices: ['StringIndexOutOfBoundsException 예외 발생', 'null', '빈 공백', '0'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 2, desc: '길이가 2인 "Hi" 는 인덱스 0(H), 1(i) 밖에 없습니다. 2를 호출하면 범위를 벗어나 예외가 터집니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'j_string_10',
+    language: 'java',
+    category: 'j_string',
+    title: 'split() 과 빈 배열',
+    questionText: '결과는?',
+    code: [
+      'public class Main {',
+      '    public static void main(String[] args) {',
+      '        String[] arr = "A,B,".split(",");',
+      '        System.out.print(arr.length);',
+      '    }',
+      '}'
+    ],
+    choices: ['2', '3', '에러', '1'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 2, desc: 'split() 기본동작은 구분자로 잘랐을 때 뒤따라오는 맨 끝의 빈 문자열 쓰레기 세그먼트들을 기본적으로 버림처리 합니다. A, B 2개만 배열에 쌓입니다.', output: '', variables: {} },
+      { codeLine: 3, desc: '2 출력됨.', output: '2', variables: {} },
+    ],
+  }
 ];

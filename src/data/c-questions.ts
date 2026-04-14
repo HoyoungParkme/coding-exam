@@ -1440,7 +1440,7 @@ export const C_QUESTIONS: Question[] = [
   },
   // 7. 이중 포인터
   {
-    id: 'c_dbl_ptr',
+    id: 'c_dbl_ptr_1',
     language: 'c',
     category: 'c_dbl_ptr',
     title: '이중 포인터 역참조',
@@ -1467,9 +1467,210 @@ export const C_QUESTIONS: Question[] = [
       { codeLine: 6, desc: '변경된 a 값 20이 출력됩니다.', output: '20', variables: { a: 20 } },
     ],
   },
+  {
+    id: 'c_dbl_ptr_2',
+    language: 'c',
+    category: 'c_dbl_ptr',
+    title: '단일 역참조된 이중 포인터',
+    questionText: '출력 값은?',
+    code: [
+      '#include <stdio.h>',
+      'int main() {',
+      '    int a = 5;',
+      '    int *p = &a;',
+      '    int **pp = &p;',
+      '    *pp = NULL;',
+      '    printf("%p", p);',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['00000000', 'a의 주소', '5', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 5, desc: '*pp는 포인터 배열이나 다른 포인터를 조작할 때 쓰입니다. 여기서는 *pp 즉 p 자체에 NULL을 대입합니다.', output: '', variables: {} },
+      { codeLine: 6, desc: '따라서 출력 퍼센트 p 형식은 0(내지 (nil)) 이 됩니다.', output: '00000000', variables: {} },
+    ],
+  },
+  {
+    id: 'c_dbl_ptr_3',
+    language: 'c',
+    category: 'c_dbl_ptr',
+    title: '포인터의 주소 출력',
+    questionText: '결과는?',
+    code: [
+      '#include <stdio.h>',
+      'int main() {',
+      '    int v = 9;',
+      '    int *p = &v;',
+      '    int **pp = &p;',
+      '    printf("%d", pp == &p);',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['1', '0', '9', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 4, desc: 'pp는 &p를 담고 있으므로 pp == &p 는 논리적으로 True(1)을 반환합니다.', output: '', variables: {} },
+      { codeLine: 5, desc: '1이 출력됩니다.', output: '1', variables: {} },
+    ],
+  },
+  {
+    id: 'c_dbl_ptr_4',
+    language: 'c',
+    category: 'c_dbl_ptr',
+    title: '포인터 배열과 이중 포인터 호환',
+    questionText: '출력은 어떻게 되는가?',
+    code: [
+      '#include <stdio.h>',
+      'int main() {',
+      '    const char *arr[] = {"A", "B", "C"};',
+      '    const char **p = arr;',
+      '    printf("%s", *(p + 1));',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['B', 'A', 'C', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 3, desc: '포인터 배열의 이름 arr은 첫 번째 원소(const char *)의 주소이므로, 이중 포인터(const char **)에 담길 수 있습니다.', output: '', variables: {} },
+      { codeLine: 4, desc: 'p + 1 은 두 번째 원소(포인터)를 가리키며, 이를 역참조하면 문자열 "B"의 시작주소를 얻습니다.', output: 'B', variables: {} },
+    ],
+  },
+  {
+    id: 'c_dbl_ptr_5',
+    language: 'c',
+    category: 'c_dbl_ptr',
+    title: '더블 포인터 사칙연산',
+    questionText: 'p가 가리키는 대상의 크기는?',
+    code: [
+      'int **p;',
+      '// p++; 했을때 증가하는 메모리 바이트 수는? (32~64비트시스템 일반적으로)'
+    ],
+    choices: ['포인터 크기 (4 또는 8바이트)', 'int 크기 (4바이트)', '1바이트', '알 수 없음'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: '이중 포인터는 단일 포인터 값(주소값)을 담고 있으므로, p++ 하면 포인터의 크기(보통 4바이트/8바이트)만큼 주소가 증가합니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_dbl_ptr_6',
+    language: 'c',
+    category: 'c_dbl_ptr',
+    title: '더블 포인터를 통한 배열 순회',
+    questionText: '출력은?',
+    code: [
+      '#include <stdio.h>',
+      'int main() {',
+      '    char *strs[] = {"apple", "banana", NULL};',
+      '    char **p = strs;',
+      '    while(*p) { p++; }',
+      '    printf("%d", p - strs);',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['2', '3', '0', '1'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 4, desc: 'while(*p)는 p가 가리키는 포인터 문자열이 NULL이 되기 전까지 전진시킵니다.', output: '', variables: {} },
+      { codeLine: 5, desc: 'p가 strs[2]인 NULL에 도달했을 때 멈추므로 두 주소의 차이는 2-0=2 (단위: 포인터크기) 입니다.', output: '2', variables: {} },
+    ],
+  },
+  {
+    id: 'c_dbl_ptr_7',
+    language: 'c',
+    category: 'c_dbl_ptr',
+    title: '함수로 포인터 값 변경 (이중포인터 사용)',
+    questionText: '출력 결과는?',
+    code: [
+      '#include <stdio.h>',
+      'void modify(int **q) {',
+      '    static int b = 50;',
+      '    *q = &b;',
+      '}',
+      'int main() {',
+      '    int a = 10;',
+      '    int *p = &a;',
+      '    modify(&p);',
+      '    printf("%d", *p);',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['50', '10', '주소값', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 8, desc: '&p 로 포인터의 주소를 넘기므로 함수 내부에서 *q를 변경하는 것은 원본 포인터 p를 직접 바꾸는 것과 같습니다.', output: '', variables: {} },
+      { codeLine: 4, desc: 'p는 이제 b의 주소를 가리킵니다.', output: '', variables: {} },
+      { codeLine: 9, desc: '*p 는 b의 값인 50을 출력합니다.', output: '50', variables: {} },
+    ],
+  },
+  {
+    id: 'c_dbl_ptr_8',
+    language: 'c',
+    category: 'c_dbl_ptr',
+    title: '멀티 어레이와 이중 포인터의 착각',
+    questionText: '이 코드는 올바른가?',
+    code: [
+      'int arr[2][3] = {0};',
+      'int **p = arr;',
+      '// 컴파일 에러 경고 날까?'
+    ],
+    choices: ['에러 혹은 경고 발생', '정상', '실행 중 다운됨', 'arr 크기만큼 늘어남'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: '다차원 배열 arr 은 int (*)[3] 타입이지, 포인터를 담는 int** 가 아닙니다. 타입 불일치로 경고가 납니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_dbl_ptr_9',
+    language: 'c',
+    category: 'c_dbl_ptr',
+    title: 'n차 포인터',
+    questionText: '삼중 포인터일 경우 역참조는 몇 번 해야 원본 값을 얻는가?',
+    code: [
+      'int a = 5;',
+      'int *p1 = &a;',
+      'int **p2 = &p1;',
+      'int ***p3 = &p2;'
+    ],
+    choices: ['3번 (***p3)', '2번 (**p3)', '1번 (*p3)', '할 수 없음'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 3, desc: '별(*)이 세 개 붙어있으므로 원 포인터 단계로 내려가려면 *** 세 개를 붙여야 원본 int 도달.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_dbl_ptr_10',
+    language: 'c',
+    category: 'c_dbl_ptr',
+    title: 'char ** 조작',
+    questionText: '출력은?',
+    code: [
+      '#include <stdio.h>',
+      'int main() {',
+      '    char *s = "Code";',
+      '    char **ps = &s;',
+      '    printf("%c", **ps);',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['C', 'o', 'Code', '주소값'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 4, desc: '*ps 는 s의 주소입니다. **ps는 s[0] 즉 첫 번째 문자열 "C"를 향하는 단일 char를 말합니다.', output: 'C', variables: {} },
+    ],
+  },
   // 8. 구조체 배열
   {
-    id: 'c_struct_arr',
+    id: 'c_struct_arr_1',
     language: 'c',
     category: 'c_struct_arr',
     title: '구조체 배열 초기화',
@@ -1491,9 +1692,209 @@ export const C_QUESTIONS: Question[] = [
       { codeLine: 4, desc: 'p[1].x 는 3, p[0].y 는 2 입니다. 합은 3+2 = 5.', output: '5', variables: { 'p[1].x': 3, 'p[0].y': 2 } },
     ],
   },
+  {
+    id: 'c_struct_arr_2',
+    language: 'c',
+    category: 'c_struct_arr',
+    title: '구조체 배열 부분 초기화',
+    questionText: '초기화 되지 않은 값은 어떻게 되나?',
+    code: [
+      '#include <stdio.h>',
+      'struct Node { int a, b; };',
+      'int main() {',
+      '    struct Node arr[2] = {{1}};',
+      '    printf("%d %d", arr[1].a, arr[0].b);',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['0 0', '1 0', '쓰레기값', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 3, desc: 'C언어에서 배열 중 앞부분만 초기화하면 뒷 배열의 값(멤버 포함)들은 모두 0으로 0-Init 처리됩니다.', output: '', variables: {} },
+      { codeLine: 4, desc: 'arr[0].b 및 arr[1].a 는 모두 0입니다.', output: '0 0', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_arr_3',
+    language: 'c',
+    category: 'c_struct_arr',
+    title: '구조체 멤버 문자열 접근',
+    questionText: '출력은?',
+    code: [
+      '#include <stdio.h>',
+      'struct Item { char name[10]; int val; };',
+      'int main() {',
+      '    struct Item it[2] = {{"A", 10}, {"B", 20}};',
+      '    printf("%c", it[1].name[0]);',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['B', 'A', 'Name에러', '0'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 4, desc: 'it[1]은 두 번째 요소 {"B", 20} 이며, name[0]은 문자열 "B"의 첫 번째 글자를 의미하므로 \'B\' 입니다.', output: 'B', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_arr_4',
+    language: 'c',
+    category: 'c_struct_arr',
+    title: '배열 크기 구하기',
+    questionText: 'sizeof의 연산결과는?',
+    code: [
+      '#include <stdio.h>',
+      'struct X { double a; int b; };',
+      'int main() {',
+      '    struct X arr[3];',
+      '    // 보통 환경에서 sizeof(arr) / sizeof(arr[0])',
+      '}'
+    ],
+    choices: ['3', '12', '24', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 4, desc: '구조체 내부 패딩이 어찌되건, 배열 전체바이트 / 1요소바이트 를 나누면 요소의 개수인 3이 나열됩니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_arr_5',
+    language: 'c',
+    category: 'c_struct_arr',
+    title: '구조체 복사',
+    questionText: 'arr[1] = arr[0] 의 결과?',
+    code: [
+      '#include <stdio.h>',
+      'struct Pair { int n; };',
+      'int main() {',
+      '    struct Pair arr[2] = { {9} };',
+      '    arr[1] = arr[0];',
+      '    printf("%d", arr[1].n);',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['9', '0', '쓰레기값', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 4, desc: 'C는 동일한 구조체 변수간 대입(=)을 통해 내부 멤버를 모두 복사(Shallow Copy에 준함)해줍니다.', output: '', variables: {} },
+      { codeLine: 5, desc: '1번 인덱스도 9 복사됨.', output: '9', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_arr_6',
+    language: 'c',
+    category: 'c_struct_arr',
+    title: '구조체 안의 포인터 배열',
+    questionText: '에러인가 정상적인가?',
+    code: [
+      '#include <stdio.h>',
+      'struct Test { char *tag; };',
+      'int main() {',
+      '    struct Test list[2] = {{"hi"}, {"bye"}};',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['정상 작동', '컴파일 에러 (포인터 상수)', '실행 중 충돌', '알수없음'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 3, desc: '문자열 리터럴 "hi"가 메모리의 주소로 잡혀 tag 포인터에 저장되는 형태로 매우 정상적인 선언입니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_arr_7',
+    language: 'c',
+    category: 'c_struct_arr',
+    title: 'Designated Initializers(지정 초기화)',
+    questionText: 'C99 이상에서 출력은?',
+    code: [
+      '#include <stdio.h>',
+      'struct Box { int w, h; };',
+      'int main() {',
+      '    struct Box b[2] = { [1] = { .h = 5 } };',
+      '    printf("%d %d", b[0].h, b[1].w);',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['0 0', '0 5', '5 0', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 3, desc: '[1] 인덱스의 요소만 지정하여 값을 주었고, 1번의 h도 지정초기화 했습니다. 그 외 b[0] 전체와 b[1].w 는 0으로 초기화됨.', output: '', variables: {} },
+      { codeLine: 4, desc: '0과 0 이 출력됨.', output: '0 0', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_arr_8',
+    language: 'c',
+    category: 'c_struct_arr',
+    title: '배열 포인터와 조작',
+    questionText: '출력은?',
+    code: [
+      '#include <stdio.h>',
+      'struct E { int val; };',
+      'int main() {',
+      '    struct E d[2] = {{10}, {20}};',
+      '    struct E *ptr = d;',
+      '    printf("%d", (ptr+1)->val);',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['20', '10', '쓰레기값', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 4, desc: '포인터 ptr 은 구조체 배열의 첫 원소를 향합니다.', output: '', variables: {} },
+      { codeLine: 5, desc: 'ptr+1 은 두 번째 원소(인덱스 1)를 향하며 화살표 -> 로 접근하면 20을 꺼냅니다.', output: '20', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_arr_9',
+    language: 'c',
+    category: 'c_struct_arr',
+    title: '배열의 이름과 레퍼런스',
+    questionText: '수식 arr == &arr[0] 의 결과?',
+    code: [
+      'struct D { int a; };',
+      'struct D arr[3];',
+      '// arr 과 &arr[0] 의 판별값은?'
+    ],
+    choices: ['같음 (1)', '다름 (0)', '에러', '모름'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 0, desc: '구조체 배열 배열의 이름은 일반 배열과 마찬가지로 1번째 요소의 시작주소(&arr[0]) 와 동일합니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_arr_10',
+    language: 'c',
+    category: 'c_struct_arr',
+    title: '멤버 수정',
+    questionText: '결과는?',
+    code: [
+      '#include <stdio.h>',
+      'struct V { int val; };',
+      'int main() {',
+      '    struct V a[2] = {{0}};;',
+      '    a[1].val += 5;',
+      '    printf("%d", a[1].val);',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['5', '0', '쓰레기값', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 4, desc: '2번째 요소 값이 0 이었으나, +5를 했으므로 5가 됩니다.', output: '', variables: {} },
+      { codeLine: 5, desc: '5 출력.', output: '5', variables: {} },
+    ],
+  },
   // 9. 구조체 포인터
   {
-    id: 'c_struct_ptr',
+    id: 'c_struct_ptr_1',
     language: 'c',
     category: 'c_struct_ptr',
     title: '구조체 포인터와 화살표(->) 연산자',
@@ -1519,9 +1920,185 @@ export const C_QUESTIONS: Question[] = [
       { codeLine: 6, desc: '바뀐 200을 출력합니다.', output: '200', variables: { 'd.val': 200 } },
     ],
   },
+  {
+    id: 'c_struct_ptr_2',
+    language: 'c',
+    category: 'c_struct_ptr',
+    title: '->의 동의어 연산자',
+    questionText: 'ptr->val과 문법적으로 동일한 것은?',
+    code: [
+      '#include <stdio.h>',
+      'struct X { int a; };',
+      '// struct X *p;'
+    ],
+    choices: ['(*p).a', '*p.a', 'p.*a', '&p.a'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 2, desc: '포인터 p를 역참조하면 본체 구조체 (*p)가 됩니다. 여기에 마침표를 찍어 .a 를 접근하므로 (*p).a 와 ptr->a 는 완벽히 동일합니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_ptr_3',
+    language: 'c',
+    category: 'c_struct_ptr',
+    title: '자기 참조 구조체',
+    questionText: '에러 수정: 구조체가 내부적으로 자신의 포인터를 가질 때 올바른 선언은?',
+    code: [
+      '// struct Node {',
+      '//     int data;',
+      '//     ??? next;',
+      '// };'
+    ],
+    choices: ['struct Node *', 'struct Node', 'Node *', 'void *'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 2, desc: '자기 참조 형태(Linked List 등)를 만들려면, 크기가 정해진 자기 자신의 포인터인 struct Node * 를 사용해야 무한 재귀 확장을 피할 수 있습니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_ptr_4',
+    language: 'c',
+    category: 'c_struct_ptr',
+    title: '구조체 동적 할당',
+    questionText: 'malloc을 사용해 구조체 공간을 잡는 코드는?',
+    code: [
+      'struct Item { int x; };',
+      '// 빈칸에 적절한 코드는?',
+      'struct Item *pt = ______;'
+    ],
+    choices: ['(struct Item*)malloc(sizeof(struct Item))', 'malloc(sizeof(struct Item*))', 'struct Item', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 2, desc: '구조체의 크기만큼 메모리를 예약하고 이 주소를 구조체 포인터 타입으로 캐스팅하여 pt에 담습니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_ptr_5',
+    language: 'c',
+    category: 'c_struct_ptr',
+    title: '구조체 포인터 수식 우선순위',
+    questionText: '++ptr->a 는 어떻게 해석되는가?',
+    code: [
+      'struct Counter { int a; };',
+      'struct Counter *ptr;'
+    ],
+    choices: ['++(ptr->a)', '(++ptr)->a', '에러', '모름'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 0, desc: '화살표 연산자(->)는 전위 증감 연산자(++)보다 우선순위가 높습니다. 즉, ptr이 가리키는 a 변수의 값을 1 증가시킵니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_ptr_6',
+    language: 'c',
+    category: 'c_struct_ptr',
+    title: '포인터 갱신 후 출력',
+    questionText: '출력은 어떻게 되는가?',
+    code: [
+      '#include <stdio.h>',
+      'struct S { int n; };',
+      'int main() {',
+      '    struct S s_arr[2] = { {1}, {2} };',
+      '    struct S *p = s_arr;',
+      '    printf("%d", (++p)->n);',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['2', '1', '쓰레기값', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 5, desc: '++p 가 먼저 수행되어 p는 s_arr[1]을 가리키게 됩니다. 그 뒤 ->n 이 호출되어 2가 출력됩니다.', output: '2', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_ptr_7',
+    language: 'c',
+    category: 'c_struct_ptr',
+    title: 'typedef와 포인터',
+    questionText: '이 코드의 출력은?',
+    code: [
+      '#include <stdio.h>',
+      'typedef struct { int a; } Data;',
+      'int main() {',
+      '    Data d = {5};',
+      '    Data *p = &d;',
+      '    printf("%d", (*p).a);',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['5', '0', '쓰레기값', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 5, desc: 'typedef를 통해 Data라는 이름으로 쓰이고 본질은 똑같습니다. (*p).a 는 p가 가리키는 a=5를 가져옵니다.', output: '5', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_ptr_8',
+    language: 'c',
+    category: 'c_struct_ptr',
+    title: '함수 매개변수로서의 구조체 포인터',
+    questionText: 'call by value 가 아닌 call by reference 효과를 내려면?',
+    code: [
+      'void update(struct Node* n) {',
+      '    n->val = 10;',
+      '}'
+    ],
+    choices: ['구조체 포인터를 넘겨 주소를 복사해 원본 접근', '원본 객체를 통째로 넘김', '배열로 감싸서 넘김', '문법 오류'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 0, desc: '구조체가 크면 복사 비용이 비싸므로, C언어에서는 구조체 포인터를 함수로 넘기는 것이 성능과 수정 반영에 있어 정석입니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_ptr_9',
+    language: 'c',
+    category: 'c_struct_ptr',
+    title: '연결 리스트 순회 (ptr = ptr->next)',
+    questionText: '루프에서 다음 노드로 이동하는 정석 코드?',
+    code: [
+      'struct Node { int v; struct Node *next; };',
+      '// while(ptr != NULL) {',
+      '//      ???',
+      '// }'
+    ],
+    choices: ['ptr = ptr->next;', 'ptr++;', 'ptr = ptr.next;', 'ptr = &ptr->next;'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 2, desc: '포인터 ptr을 자신이 가리키는 노드의 next 멤버가 가리키는 다른 메모리 주소로 덮어씌움으로써 순회합니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_struct_ptr_10',
+    language: 'c',
+    category: 'c_struct_ptr',
+    title: 'NULL 구조체 포인터 역참조',
+    questionText: '실행하면 어떻게 되나?',
+    code: [
+      '#include <stdio.h>',
+      'struct NullT { int x; };',
+      'int main() {',
+      '    struct NullT *p = NULL;',
+      '    printf("%d", p->x);',
+      '}'
+    ],
+    choices: ['세그멘테이션 폴트(Segmentation Fault) 등 크래시', '0 출력', '쓰레기값', '에러아님'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 4, desc: 'NULL 포인터를 향해 멤버 접근 연산자(->)를 사용하는 순간 운영체제가 비정상 메모리 접근으로 프로그램를 즉각 강제 종료시킵니다.', output: '', variables: {} },
+    ],
+  },
   // 10. C언어 주요 함수
   {
-    id: 'c_funcs',
+    id: 'c_funcs_1',
     language: 'c',
     category: 'c_funcs',
     title: '문자열 라이브러리 함수 (strcpy, strlen)',
@@ -1546,4 +2123,175 @@ export const C_QUESTIONS: Question[] = [
       { codeLine: 6, desc: 'strlen은 널문자를 제외한 문자 개수이므로 3입니다. 3 출력.', output: '3', variables: { 'strlen(str2)': 3 } },
     ],
   },
+  {
+    id: 'c_funcs_2',
+    language: 'c',
+    category: 'c_funcs',
+    title: 'strcat 문자열 이어붙이기',
+    questionText: '출력은?',
+    code: [
+      '#include <stdio.h>',
+      '#include <string.h>',
+      'int main() {',
+      '    char a[10] = "Hi";',
+      '    char b[] = "!";',
+      '    strcat(a, b);',
+      '    printf("%s", a);',
+      '    return 0;',
+      '}'
+    ],
+    choices: ['Hi!', 'Hi !', '!', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 5, desc: 'strcat은 첫 번째 파라미터 배열의 NULL문자가 있는 위치에서부터 두 번째 문자열을 덮어씌우며 가져옵니다. "Hi" 뒤에 "!"가 누적됩니다.', output: '', variables: {} },
+      { codeLine: 6, desc: 'Hi! 가 완성되어 나옵니다.', output: 'Hi!', variables: {} },
+    ],
+  },
+  {
+    id: 'c_funcs_3',
+    language: 'c',
+    category: 'c_funcs',
+    title: 'strcmp 문자열 비교',
+    questionText: '결과는 어떻게 되나?',
+    code: [
+      '#include <stdio.h>',
+      '#include <string.h>',
+      'int main() {',
+      '    int res = strcmp("ABC", "ABC");',
+      '    printf("%d", res);',
+      '}'
+    ],
+    choices: ['0', '1', '에러', '문자열의 주소'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 3, desc: 'strcmp는 두 문자열 내용이 완전히 동일하면 0을 리턴합니다. (다르면 음수 또는 양수 반환)', output: '', variables: {} },
+      { codeLine: 4, desc: '0이 출력됨.', output: '0', variables: {} },
+    ],
+  },
+  {
+    id: 'c_funcs_4',
+    language: 'c',
+    category: 'c_funcs',
+    title: 'malloc과 free',
+    questionText: '동적 할당의 목적?',
+    code: [
+      '#include <stdlib.h>',
+      '// int *p = (int*)malloc(sizeof(int) * 10);',
+      '// free(p);'
+    ],
+    choices: ['런타임에 필요한 만큼 힙(heap) 영역에서 동적으로 메모리를 확보하기 위해', '컴파일 속도를 빠르게 하기 위해', '속도를 올리기 위해', '배열을 못쓰게 하려고'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: '실행 중에 데이터 갯수가 정해지는 등 유동성 확보를 위해 malloc이 쓰입니다. 다 쓰면 free로 필히 반납해야 합니다(메모리 누수 방지).', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_funcs_5',
+    language: 'c',
+    category: 'c_funcs',
+    title: 'atoi 와 sprintf의 관계',
+    questionText: 'atoi 와 sprintf (또는 itoa) 은 문자열과 숫자의 상호 변환에 관여한다. atoi("123") 은 무엇을 리턴하는가?',
+    code: [
+      '#include <stdlib.h>',
+      '// int val = atoi("123");'
+    ],
+    choices: ['정수 123 (int 타입)', '문자열 "123"', '실수 123.0', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: 'ASCII to Integer 의 약자로, 문자열로 주어진 10진수 숫자 문자를 실제 int형 데이터로 변환합니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_funcs_6',
+    language: 'c',
+    category: 'c_funcs',
+    title: '수학 함수 pow (math.h)',
+    questionText: 'pow(2, 3) 의 출력값(실수 기반)은?',
+    code: [
+      '#include <stdio.h>',
+      '#include <math.h>',
+      'int main() {',
+      '    printf("%.0f", pow(2, 3));',
+      '}'
+    ],
+    choices: ['8', '6', '9', '5'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 3, desc: 'pow(N, M)은 N의 M승을 실수 구격으로 반환합니다. 2의 3승은 8입니다.', output: '8', variables: {} },
+    ],
+  },
+  {
+    id: 'c_funcs_7',
+    language: 'c',
+    category: 'c_funcs',
+    title: 'rand 함수 (stdlib.h)',
+    questionText: 'rand() % 5 가 반환하는 값의 범위는?',
+    code: [
+      '#include <stdlib.h>',
+      '// int r = rand() % 5;'
+    ],
+    choices: ['0 ~ 4', '1 ~ 5', '0 ~ 5', '1 ~ 4'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: '어떤 큰 정수를 5로 나눈 나머지이므로, 가능한 나머지는 0, 1, 2, 3, 4 뿐입니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_funcs_8',
+    language: 'c',
+    category: 'c_funcs',
+    title: 'strncpy 보안 함수',
+    questionText: 'strncpy 에 있는 \'n\'의 의미는?',
+    code: [
+      'char src[] = "Hello";',
+      'char dest[3];',
+      'strncpy(dest, src, 2);'
+    ],
+    choices: ['최대 복사할 문자의 개수 길이를 강제 지정 (버퍼 오버플로우 방지 목적)', 'new 의 약자', 'null 제외 길이', '에러'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 2, desc: '목적지 버퍼가 너무 작을 때 안전상의 이유로 복사할 최대 바이트 수를 파라미터로 명시하는 함수입니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_funcs_9',
+    language: 'c',
+    category: 'c_funcs',
+    title: 'printf 서식지정자 종합',
+    questionText: '%x 와 %o 는 각각 무엇의 약어인가?',
+    code: [
+      '// printf("%x %o", 16, 8);'
+    ],
+    choices: ['%x: 16진수 (hex), %o: 8진수 (octal)', '%x: 10진수, %o: 1진수', '둘다 실수 표기', '문법 오류'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 0, desc: '16진수 hex의 x와, 8진수 octal의 o를 씁니다.', output: '', variables: {} },
+    ],
+  },
+  {
+    id: 'c_funcs_10',
+    language: 'c',
+    category: 'c_funcs',
+    title: 'scanf 의 특성',
+    questionText: '에러를 유발하는 잘못된 배열 문자열 입력은?',
+    code: [
+      'char str[10];',
+      '// 1: scanf("%s", &str);',
+      '// 2: scanf("%s", str);'
+    ],
+    choices: ['1번. 배열 자체가 주소이므로 &를 붙일 필요가 없거나 논리적 타입 오류(char(*)[])가 납니다.', '2번', '둘다 에러', '둘다 정상'],
+    correctAnswer: 0,
+    visualizer: 'variable',
+    steps: [
+      { codeLine: 1, desc: '기본 타입 스칼라 변수의 경우 &가 필요하지만, 배열의 이름은 그 자체로 주소(포인터)로 작용하므로 &를 빼는 것이 안전/정석입니다.', output: '', variables: {} },
+    ],
+  }
 ];
