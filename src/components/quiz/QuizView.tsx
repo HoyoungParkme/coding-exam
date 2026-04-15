@@ -40,12 +40,21 @@ export function QuizView({ question }: Props) {
           >
             {langInfo.icon} {langInfo.label}
           </span>
-          <span
-            className="px-3 py-1 rounded-full text-[0.7rem] font-semibold border"
-            style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
-          >
-            기출유형
-          </span>
+          {question.source ? (
+            <span
+              className="px-3 py-1 rounded-full text-[0.7rem] font-bold border"
+              style={{ borderColor: '#f59e0b', color: '#f59e0b', background: 'rgba(245,158,11,0.1)' }}
+            >
+              {question.source} 기출
+            </span>
+          ) : (
+            <span
+              className="px-3 py-1 rounded-full text-[0.7rem] font-semibold border"
+              style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
+            >
+              기출유형 연습
+            </span>
+          )}
         </div>
 
         {/* 문제 텍스트 */}

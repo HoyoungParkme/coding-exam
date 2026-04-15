@@ -42,6 +42,7 @@ export interface Question {
   language: Language;
   category: string;
   title: string;
+  source?: string;          // 기출 출처 (예: "2024년 2회")
   questionText: string;
   code: string[];
   choices: string[];
